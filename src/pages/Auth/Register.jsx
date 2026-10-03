@@ -11,7 +11,20 @@ const Register = () => {
     const email = form.email.value;
     const password = form.password.value;
 
-    // console.log({ name, email, password });
+    // pssword validation
+     if (password.length < 6) {
+       return toast.error("Password must be at least 6 characters");
+     }
+
+     if (!/[A-Z]/.test(password)) {
+       return toast.error("At least one uppercase letter required");
+     }
+
+     if (!/[0-9]/.test(password)) {
+       return toast.error("At least one number required");
+     }
+
+    console.log({ name, email, password });
   };
 
   return (
