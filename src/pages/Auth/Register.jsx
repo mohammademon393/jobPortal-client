@@ -1,36 +1,77 @@
-import React from 'react';
-import registerLottieData from '../../assets/Lottie/AnimationData.json';
-import Lottie from 'lottie-react';
+import React from "react";
+import lottieData from "../../assets/lottie/ansLotte.json";
+import Lottie from "lottie-react";
 
 const Register = () => {
-    return (
-      <div className="hero bg-base-200 min-h-screen">
-        <div className="hero-content flex-col lg:flex-row-reverse">
-          <div className="text-center lg:text-left">
-            <h1 className="text-5xl font-bold">Register now!</h1>
-            <Lottie animationData={registerLottieData}></Lottie>
-          </div>
-          <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-            <div className="card-body">
+  const handleRegister = (e) => {
+    e.preventDefault();
+
+    const form = e.target;
+    const name = form.name.value;
+    const email = form.email.value;
+    const password = form.password.value;
+
+    // console.log({ name, email, password });
+  };
+
+  return (
+    <div className="hero bg-base-200 min-h-screen">
+      <div className="hero-content flex-col lg:flex-row-reverse">
+        {/* Animation section */}
+        <div className="text-center lg:text-left">
+          <h1 className="text-4xl font-bold">Create Your Account!</h1>
+
+          {/* <Lottie
+            animationData={lottieData}
+            className="w-full max-w-md mx-auto"
+          /> */}
+        </div>
+
+        {/* Register form */}
+        <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+          <div className="card-body">
+            <h2 className="text-2xl font-bold text-center">Register</h2>
+
+            <form onSubmit={handleRegister}>
               <fieldset className="fieldset">
+                <label className="label">Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  className="input w-full"
+                  placeholder="Your name"
+                  required
+                />
+
                 <label className="label">Email</label>
-                <input type="email" className="input" placeholder="Email" />
+                <input
+                  type="email"
+                  name="email"
+                  className="input w-full"
+                  placeholder="Email"
+                  required
+                />
+
                 <label className="label">Password</label>
                 <input
                   type="password"
-                  className="input"
+                  name="password"
+                  className="input w-full"
                   placeholder="Password"
+                  minLength={6}
+                  required
                 />
-                <div>
-                  <a className="link link-hover">Forgot password?</a>
-                </div>
-                <button className="btn btn-neutral mt-4">Login</button>
+
+                <button type="submit" className="btn btn-primary mt-4">
+                  Register
+                </button>
               </fieldset>
-            </div>
+            </form>
           </div>
         </div>
       </div>
-    );
+    </div>
+  );
 };
 
 export default Register;

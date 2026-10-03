@@ -36,7 +36,10 @@ const Navbar = () => {
   const AuthLinks = (
     <>
       <li>
-        <NavLink to="/register" className={`${linkClass} btn btn-outline btn-primary`}>
+        <NavLink
+          to="/register"
+          className={`${linkClass} btn btn-outline btn-primary`}
+        >
           <MdOutlineContactMail /> Register
         </NavLink>
       </li>
