@@ -1,16 +1,20 @@
-import React from "react";
-import { CgLogIn } from "react-icons/cg";
-import { FaHome, FaInfoCircle } from "react-icons/fa";
-import { MdContactPhone, MdOutlineContactMail } from "react-icons/md";
+import React, { useContext } from "react";
+import { CgLogIn, CgLogOut } from "react-icons/cg";
+import { FaHome, FaInfoCircle, FaUserCircle } from "react-icons/fa";
+import { MdContactPhone, MdLogout, MdOutlineContactMail } from "react-icons/md";
 import { Link, NavLink } from "react-router";
 import Logo from "./Logo";
+import AuthContext from "../context/authContext/AuthContext";
 
 const Navbar = () => {
+  const { user, signOutUser } = useContext(AuthContext);
+
   const linkClass = ({ isActive }) =>
     isActive
       ? "text-blue-600 font-bold"
       : "hover:underline hover:text-blue-600";
 
+  // Navigation links
   const Links = (
     <>
       <li>
@@ -33,84 +37,133 @@ const Navbar = () => {
     </>
   );
 
-  const AuthLinks = (
-    <>
-      <li>
-        <NavLink
-          to="/register"
-          className={`${linkClass} btn btn-outline btn-primary`}
-        >
-          <MdOutlineContactMail /> Register
-        </NavLink>
-      </li>
-      <li>
-        <NavLink to="/login" className={`${linkClass} btn btn-primary mt-2`}>
-          <CgLogIn /> Login
-        </NavLink>
-      </li>
-    </>
+  // Sign out function
+  const handleSignOut = async () => {
+    try {
+      await signOutUser();
+      console.log("Successfully logged out!");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
+
+  // User dropdown
+  const UserDropdown = (
+    <div className="dropdown dropdown-end">
+      <div
+        tabIndex={0}
+        role="button"
+        className="btn btn-ghost flex items-center gap-2"
+      >
+        {user?.photoURL ? (
+          <img
+            src={user.photoURL}
+            alt="User profile"
+            className="w-9 h-9 rounded-full object-cover"
+          />
+        ) : (
+          <FaUserCircle className="text-3xl" />
+        )}
+
+        
+      </div>
+
+    </div>
   );
 
-  
-return (
-  <div className="navbar bg-base-100">
-    {/* Logo - Left Side */}
-    <div className="navbar-start ">
-      <Logo />
-    </div>
+  return (
+    <div className="navbar bg-base-100 shadow-sm px-4">
+      {/* Logo */}
+      <div className="navbar-start">
+        <Logo />
+      </div>
 
-    {/* Desktop Navigation - Center */}
-    <div className="navbar-center hidden md:flex">
-      <ul className="menu menu-horizontal px-1">{Links}</ul>
-    </div>
+      {/* Desktop Navigation */}
+      <div className="navbar-center hidden md:flex">
+        <ul className="menu menu-horizontal px-1">{Links}</ul>
+      </div>
 
-    {/* Desktop Buttons - Right */}
-    <div className="navbar-end hidden md:flex">
-      <Link to="/register" className="btn btn-outline btn-primary">
-        <MdOutlineContactMail />
-        Register
-      </Link>
+      {/* Desktop Authentication */}
+      <div className="navbar-end hidden md:flex gap-2">
+        {user ? (
+          <>
+            <button onClick={handleSignOut} className="btn btn-primary">
+              <CgLogOut />
+              LogOut
+            </button>
+          </>
+        ) : (
+          <>
+            <Link to="/register" className="btn btn-outline btn-primary">
+              <MdOutlineContactMail />
+              Register
+            </Link>
 
-      <Link to="/login" className="btn btn-primary ml-2">
-        <CgLogIn />
-        Login
-      </Link>
-    </div>
+            <Link to="/login" className="btn btn-primary">
+              <CgLogIn />
+              Login
+            </Link>
+          </>
+        )}
+      </div>
 
-    {/* Mobile Dropdown - Right */}
-    <div className="navbar-end md:hidden">
-      <div className="dropdown dropdown-end">
-        <div tabIndex={0} role="button" className="btn btn-ghost">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
+      {/* Mobile Dropdown */}
+      <div className="navbar-end md:hidden">
+        <div className="dropdown dropdown-end">
+          <div tabIndex={0} role="button" className="btn btn-ghost">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
+          </div>
+
+          <ul
+            tabIndex={0}
+            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-56 p-3 shadow-lg"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M4 6h16M4 12h8m-8 6h16"
-            />
-          </svg>
-        </div>
+            {Links}
 
-        <ul
-          tabIndex={0}
-          className="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow"
-        >
-          {Links}
-          <li>
-            <div className="divider my-0"></div>
-          </li>
-          {AuthLinks}
-        </ul>
+            <div className="divider my-1"></div>
+
+            {user ? (
+              <>
+                <button onClick={handleSignOut} className="btn btn-primary">
+                  <CgLogOut />
+                  LogOut
+                </button>
+              </>
+            ) : (
+              <>
+                <li>
+                  <Link to="/register">
+                    <MdOutlineContactMail />
+                    Register
+                  </Link>
+                </li>
+
+                <li>
+                  <Link to="/login">
+                    <CgLogIn />
+                    Login
+                  </Link>
+                </li>
+              </>
+            )}
+          </ul>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
 };
 
 export default Navbar;
