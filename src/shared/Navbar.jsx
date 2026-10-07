@@ -89,7 +89,7 @@ const Navbar = () => {
           <>
             <button onClick={handleSignOut} className="btn btn-primary">
               <CgLogOut />
-              LogOut
+              Log out
             </button>
           </>
         ) : (
