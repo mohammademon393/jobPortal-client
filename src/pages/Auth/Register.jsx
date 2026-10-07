@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import AuthContext from "../../context/authContext/AuthContext";
 import { Link } from "react-router";
 import img from "../../assets/registerLogin.png";
+import GoogleLogin from "./GoogleLogin";
 
 const Register = () => {
   const { createUser } = useContext(AuthContext);
@@ -99,6 +100,7 @@ const Register = () => {
                   </button>
                 </fieldset>
               </form>
+              <GoogleLogin></GoogleLogin>
 
               <p className="text-center mt-5 text-sm">
                 Already have an account?{" "}

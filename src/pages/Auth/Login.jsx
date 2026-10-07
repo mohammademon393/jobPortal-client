@@ -4,6 +4,7 @@ import { MdOutlineEmail } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
 import AuthContext from "../../context/authContext/AuthContext";
 import img from "../../assets/registerLogin.png";
+import GoogleLogin from "./GoogleLogin";
 
 const Login = () => {
   const { signIn } = useContext(AuthContext);
@@ -88,6 +89,7 @@ const Login = () => {
                   </button>
                 </fieldset>
               </form>
+              <GoogleLogin></GoogleLogin>
 
               <p className="text-center mt-5 text-sm">
                 Don't have an account?{" "}
